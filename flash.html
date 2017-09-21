@@ -5,30 +5,113 @@
 	<title>广告小动效</title>
 </head>
 <style>
-
     body{
     	background: #000;
     }
 	.chuizhi{
-		width: 20px;
-		height:20px;
+		width: 40px;
+		height:40px;
         background: seagreen;
         border-radius: 50%;
-        background-image: radial-gradient(50px 50px,red,yellow);
+        background-image: radial-gradient(20px 20px,yellow,red);
+        position: relative;
+	}
+	.circle{
+		width: 50px;
+		height: 50px;
+		background: lightyellow;
+        border-radius: 50%;
+        background-image: radial-gradient(30px 20px,#fff,blue);
         position: relative;
 	}
 </style>
 <body>
 	<div class="chuizhi"></div>
+	<div class="circle"></div>
 	<script>
-	    window.onload=function(){ 
+	    // 构造函数
+		function yundong(obj){
+           this.obj=obj;
+           this.speed=20;
+           this.temp=20;
+           this.h=window.innerHeight-this.obj.offsetHeight;
+           this.w=window.innerWidth-this.obj.offsetWidth;
+		}
+		// 运动的方法
+        yundong.prototype.move=function(){
+        	// 在里面的函数访问不到，所以需要先赋值给一个变量
+         	let that=this;
+         	this.t=setInterval(function(){
+         	   let lefts=that.obj.offsetLeft;
+         	   // console.log(lefts);
+               let tops=that.obj.offsetTop;
+               if(tops>=that.h){
+				   tops=that.h;
+				   that.temp*=-1;
+			    }
+			   if(tops<=0){
+				   tops=0;
+				   that.temp*=-1;
+			   }
+			   if(lefts>=that.w){
+				   lefts=that.w;
+				   that.speed*=-1;
+			   }
+			   if(lefts<=0){
+				   lefts=0;
+                   that.speed*=-1;
+			   }
+			      console.log(that.obj.style.top);
+                  that.obj.style.top=`${tops+that.temp}px`;
+			      that.obj.style.left=`${lefts+that.speed}px`;
+         	   }, 20);
+            }
+            // 鼠标移入停止的效果
+        yundong.prototype.stop=function(){
+               clearInterval(this.t);
+        }
+            // 根据屏幕的大小来决定位置
+        yundong.prototype.resize=function(){
+           this.h=window.innerHeight-this.obj.offsetHeight;
+           this.w=window.innerWidth-this.obj.offsetWidth;
+        }
+        // 获取变量
 		let chuizhi=document.getElementsByClassName('chuizhi')[0];
-		let donghua=setInterval(move,60);
-		let temp=10;
-		let speed=10;
-		let h=window.innerHeight-chuizhi.offsetHeight;
-		let w=window.innerWidth-chuizhi.offsetWidth;
-		function move(){
+		let circle=document.getElementsByClassName('circle')[0];
+		//声明对象
+        let obj=new yundong(chuizhi); 
+        let cir=new yundong(circle);
+        // 调用移动的方法
+        obj.move();
+		cir.move();
+		// 鼠标移入停止
+		chuizhi.onmouseover=function(){
+			obj.stop();
+		}
+	 //    circle.onmouseover=function(){
+		// 	cir.stop();
+		// }
+		// 鼠标移出变化
+		chuizhi.onmouseout=function(){
+			obj.move();
+		}
+		// circle.onmouseout=function(){
+		// 	cir.move();
+		// }
+		// 根据屏幕大小进行移动
+		window.onresize=function(){
+			obj.resize();
+			cir.resize();
+		}
+	</script>
+</body>
+</html>		
+<!-- // let donghua=setInterval(move,60); -->
+<!-- 		// let temp=10;
+		// let speed=10;
+		// let h=window.innerHeight-chuizhi.offsetHeight;
+		// let w=window.innerWidth-chuizhi.offsetWidth;
+		// function move(){
 			let lefts=chuizhi.offsetLeft;
 			let tops=chuizhi.offsetTop;
 			if(tops>=h){
@@ -49,8 +132,4 @@
 			}
 			chuizhi.style.top=`${tops+temp}px`;
 			chuizhi.style.left=`${lefts+2*speed}px`;
-			}
-		}
-	</script>
-</body>
-</html>
+			} -->
