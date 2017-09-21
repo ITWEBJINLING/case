@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>节点</title>
+</head>
+<style>
+	
+</style>
+<body>
+    <main>
+    	<div>
+    	    郭金玲
+    		<ul>
+    			<li>1</li>
+    			<p></p>
+    			<li>2</li>
+    			<li>3</li>
+    			<p></p>
+    			<div></div>
+    			<li>4</li>
+    			<li>5</li>
+    		</ul>
+    	</div>
+    </main>
+	<script>
+		// 用childNodes来模拟children
+		// let main=document.getElementsByTagName('main')[0];
+		// let result=main.childNodes;
+		// console.log(result);
+		// var arr=[];
+		// // forEach没有返回值
+		// Array.prototype.forEach.call(result,function(num){
+  //           if(num.nodeTyde==1){
+  //           	arr.push(num);
+  //           	console.log(arr);
+  //           }
+		// });
+        // function children(vlue){
+        // 	let main=document.querySelectorAll('main');
+        // 	console.log(main);
+        // 	let result=main.childNodes;
+        // 	console.log(result);
+        //     let arr=Array.from(result);
+        //     let newarr=arr.filter(element=>element.nodeTyde==1)
+        //     // console.log(newarr); 
+        // }
+          let p=document.getElementsByTagName('p')[0];
+          function firstjiedian(tagname,broder){
+          	// 找出父元素
+          	  let tag=tagname.parentNode;
+          	  // 找出子元素，也就是他的兄弟节点
+          	  let child=tag.childNodes;
+          	  let index;
+          	  // 找出数据的指定位置
+              for(let i=0;i<child.length;i++){
+              	if(child[i]==tagname){
+                   index=i+1;
+                   break;
+              	}
+              }
+              let jiequ=Array.from(child).slice(index);
+              for(let i=0;i<jiequ.length;i++){
+              	 if(jiequ[i].nodeName==broder.toUpperCase()){
+              	 	return jiequ[i];
+              	 }
+              }
+              return null;
+          }
+          console.log(firstjiedian(p,'p'));
+	</script>
+</body>
+</html>
